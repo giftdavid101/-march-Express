@@ -13,4 +13,5 @@ router.post("/login",[
     body("email").notEmpty().isEmail().withMessage("A user must have a valid email"),
     body("password").notEmpty().isLength({ min: 8 }).withMessage( "A user must have a password. with a minimum of 8 characters")
 ])
-    
+router.post("/forgotPassword", forgotPassword)
+   
