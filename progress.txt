@@ -1,10 +1,10 @@
 1. Connect app to database successfully with mongodb GUI compass
-2. 
+2. create  all routes
 
 
 
 
 
 
-add collection name: MONGO_DB_URI=mongodb+srv://giftdavid:gifty@cluster0.5iwbmtg.mongodb.net/{collection_name}?retryWrites=true&w=majority&appName=Cluster0
+add collection name
 allow app to connect to database first be
