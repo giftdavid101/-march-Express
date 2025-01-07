@@ -18,3 +18,9 @@ router.post("/resetPassword/:token",[
     body("password").notEmpty().withMessage("Please provide your new password"),
     body("confirmPassword").notEmpty().withMessage( "Please confirm your new password "),
 ])
+router.post("/updatePassword",protect,[
+
+    body("currentPassword").notEmpty().withMessage("Please provide your current password"),
+    body("newPassword").notEmpty().withMessage("Please provide your new password"),
+    body("confirmNewPassword").notEmpty().withMessage( "Please confirm your new password "),
+])
