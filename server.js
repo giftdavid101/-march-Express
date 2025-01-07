@@ -8,7 +8,6 @@ require("dotenv").config()
 //routes
 app.get('/', (req, res) => {
     res.send("Welcome to farmers creeks")
-
 })
 
 mongoose.set("strict", false)
