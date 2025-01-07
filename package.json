@@ -11,6 +11,8 @@
   "author": "Gift David",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "crypto-js": "^4.2.0",
     "express": "^4.21.2",
     "mongoose": "^8.9.3",
     "nodemon": "^3.1.9"
