@@ -1,5 +1,5 @@
 1. Connect app to database successfully with mongodb GUI compass
-2. cre
+2. create  all routes
 
 
 
