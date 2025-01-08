@@ -160,7 +160,7 @@ exports.resetPassword = catchAsync(async(req, res, next) => {
   
   })
 
-  
+
 exports.updatePassword = catchAsync(async(req, res, next) => {
 
     const errors = validationResult(req)
@@ -187,8 +187,7 @@ exports.updatePassword = catchAsync(async(req, res, next) => {
   
   
     createAndSendToken(user, res, 201)
-  
-  
+
   })
   
 
