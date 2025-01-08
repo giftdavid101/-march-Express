@@ -46,3 +46,19 @@ exports.getAllProducts = catchAsync(async(req, res, next) => {
      })
    
    })
+
+   exports.updateProduct = catchAsync(async(req, res, next) => {
+    const { productId } = req.params
+   
+     const product = await Product.findByIdAndUpdate(productId, req.body, {new: true})
+   
+     if (!product) {
+       return next(new AppError('No product found with this id', 404))
+     }
+   
+     res.status(201).json({
+       message: 'success',
+       product
+     })
+   
+   })
