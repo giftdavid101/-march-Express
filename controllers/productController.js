@@ -14,3 +14,19 @@ exports.getAllProducts = catchAsync(async(req, res, next) => {
       products
     })
   })
+
+  exports.addProduct = catchAsync(async(req, res,next) => {
+    const errors = validationResult(req)
+  
+    if (!errors.isEmpty()) {
+      return next(new AppError(errors, 400))
+    }
+  
+    const product = await Product.create(req.body)
+  
+    res.status(201).json({
+      message: 'success',
+      product
+    })
+  
+  })
