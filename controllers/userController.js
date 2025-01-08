@@ -9,6 +9,11 @@ const AppError = require("../utils/appError");
 const sendMail = require("../utils/email");
 
 
+const signToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
+  };
 
 const createAndSendToken = (user, res, statusCode) => {
 
@@ -112,7 +117,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     });
   });
   
-  exports.resetPassword = catchAsync(async(req, res, next) => {
+exports.resetPassword = catchAsync(async(req, res, next) => {
   
     const resetToken = req.params.token
   
@@ -155,6 +160,37 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   
   })
 
+  
+exports.updatePassword = catchAsync(async(req, res, next) => {
+
+    const errors = validationResult(req)
+  
+    if (!errors.isEmpty()) {
+      return next(new AppError(errors, 400))
+    }
+    
+    if (req.body.newPassword !== req.body.confirmNewPassword) {
+  
+      return next(new AppError('New password and confirm new password should be the same', 400))
+    }
+  
+    const user = await User.findById(req.user._id).select('+password')
+  
+    const correctPassword = user.correctPassword(req.body.currentPassword, user.password)
+  
+    if (!correctPassword) {
+      return next(new AppError("Your current password is wrong", 401))
+    }
+  
+    user.password = req.body.newPassword
+    await user.save()
+  
+  
+    createAndSendToken(user, res, 201)
+  
+  
+  })
+  
 
 
 
