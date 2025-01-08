@@ -9,6 +9,17 @@ const AppError = require("../utils/appError");
 
 
 
+const createAndSendToken = (user, res, statusCode) => {
+
+    user.password = undefined;
+    const token = signToken(user._id);
+  
+    res.status(statusCode).json({
+      message: "success",
+      token,
+      user,
+    });
+  }
 
 exports.createUser = catchAsync(async (req, res, next) => {
     const errors = validationResult(req);
@@ -31,5 +42,5 @@ exports.createUser = catchAsync(async (req, res, next) => {
   
     const user = await User.create(body);
   
-   
+    createAndSendToken(user, res, 201)
   });
