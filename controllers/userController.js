@@ -44,3 +44,23 @@ exports.createUser = catchAsync(async (req, res, next) => {
   
     createAndSendToken(user, res, 201)
   });
+
+exports.loginUser = catchAsync(async (req, res, next) => {
+    const errors = validationResult(req);
+  
+    if (!errors.isEmpty()) {
+      return next(new AppError(errors, 400));
+    }
+  
+    const user = await User.findOne({ email: req.body.email }).select(
+      "+password",
+    );
+  
+    if (
+      !user ||
+      !(await user.correctPassword(req.body.password, user.password))
+    ) {
+      return next(new AppError("email or password is not correct", 401));
+    }
+    createAndSendToken(user, res, 200)
+  });

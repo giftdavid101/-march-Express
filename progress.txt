@@ -8,4 +8,3 @@
 
 add collection name
 allow app to connect to database first be
- createAndSendToken(user, res, 201)
