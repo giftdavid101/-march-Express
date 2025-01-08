@@ -112,6 +112,50 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     });
   });
   
+  exports.resetPassword = catchAsync(async(req, res, next) => {
   
+    const resetToken = req.params.token
+  
+    if (!resetToken) {
+      return next(new AppError('The reset Token in the url is missing', 400))
+    }
+  
+    const errors = validationResult(req)
+  
+    if (!errors.isEmpty()) {
+      return next(new AppError(errors, 400))
+    }
+  
+  
+    if (req.body.password !== req.body.confirmPassword) {
+  
+      return next(new AppError('password and confirm password should be the same', 400))
+    }
+  
+  
+    const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex')
+  
+    const user = await User.findOne({
+      passwordResetToken : hashedToken,
+      passwordResetExpiresIn: {$gt: Date.now()}
+    })
+  
+    if (!user) {
+      return next(new AppError("This token is invalid or expired", 404))
+    }
+  
+    user.password = req.body.password
+    user.passwordResetToken = undefined
+    user.passwordResetExpiresIn = undefined
+  
+    await user.save()
+  
+  
+    createAndSendToken(user, res, 200)
+  
+  })
+
+
+
 
   
