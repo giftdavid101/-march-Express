@@ -6,6 +6,7 @@ const crypto = require("crypto")
 const User = require("../models/userModels");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+const sendMail = require("../utils/email");
 
 
 
@@ -65,7 +66,52 @@ exports.loginUser = catchAsync(async (req, res, next) => {
     createAndSendToken(user, res, 200)
   });
 
-
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+    if (!req.body.email) {
+      return next(new AppError("Please provide an email address", 400));
+    }
+  
+    const user = await User.findOne({ email: req.body.email });
+  
+    if (!user) {
+      return next(new AppError("No user found with this email", 404));
+    }
+  
+    const resetToken = user.createPasswordResetToken();
+  
+    await user.save({ validateBeforeSave: false });
+  
+    const resetUrl = `${req.protocol}://${req.get("host")}/api/v1/user/resetPassword/${resetToken}`;
+  
+    const message = `This email was sent to you because you forgot your password and you requested a change. 
+      If you didn't request to change your password, just ignore this mail. This is the link to reset your password ${resetUrl}`;
+  
+    try {
+      await sendMail({
+        email: user.email,
+        subject: "Password reset token (valid for 10min)",
+        text: message,
+      });
+    } catch (error) {
+      console.log(error);
+      user.resetPasswordToken = undefined;
+      user.passwordResetExpiresIn = undefined;
+  
+      await user.save({ validateBeforeSave: false });
+      return next(
+        new AppError(
+          "There was an error sending the email. Try again later",
+          500,
+        ),
+      );
+    }
+  
+    res.status(200).json({
+      status: "success",
+      message: "Reset token sent to email successfully",
+    });
+  });
+  
   
 
   
