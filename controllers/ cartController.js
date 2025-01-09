@@ -65,4 +65,16 @@ exports.addToCart = catchAsync(async(req, res, next) => {
     
   })
   
+  exports.getAllItems = catchAsync(async(req, res, next) => {
+    const owner = req.user._id
   
+    const cart = await getUpdatedCart(owner)
+  
+    res.status(200).json({
+      message: 'success',
+      cart
+    })
+  })
+  
+  
+ 
