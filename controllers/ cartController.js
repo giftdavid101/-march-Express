@@ -112,6 +112,43 @@ exports.addToCart = catchAsync(async(req, res, next) => {
   
   })
   
+  exports.deleteCartItem = catchAsync(async(req, res, next) => {
   
+    const errors = validationResult(req)
+  
+    if (!errors.isEmpty()) {
+      return next(new AppError(errors, 400))
+    }
+    const {productId} = req.body
+    const owner = req.user._id
+  
+    const cart = await Cart.findOne({owner})
+  
+    if (!cart) {
+      return next(new AppError("This user don't have a cart to delete item from", 404))
+    }
+  
+    const productIndex = cart.products.findIndex((product) => product.productId.toString() === productId)
+  
+  
+    if (productIndex === -1) {
+  
+      return next(new AppError("This product is not in your cart", 400))
+    }
+  
+    cart.products.splice(productIndex, 1)
+  
+    await cart.save()
+  
+  
+  
+    res.status(204).json({
+  
+        message: 'Item deleted successfully',
+    })
+  })
+  
+  
+ 
   
   
