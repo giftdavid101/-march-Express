@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const userRouter = require("./routes/userRoutes")
 const productRouter = require("./routes/productRoutes")
+const cartRouter = require("./routes/cartRoutes")
 
 const app = express()
 
@@ -14,6 +15,7 @@ app.use(express.urlencoded({extended: true}))
 
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/product", productRouter)
+app.use("/api/v1/cart", cartRouter)
 
 const AppError = require("./utils/appError")
 
