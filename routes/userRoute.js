@@ -2,6 +2,7 @@ const express = require("express")
 const {body} = require("express-validator")
 
 const {createUser, loginUser, forgotPassword, resetPassword, updatePassword} = require("../contollers/userController")
+const {protect} = require("../contollers/authController")
 const router = express.Router()
 
 router.post("/signup",[
