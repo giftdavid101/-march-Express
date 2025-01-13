@@ -2,10 +2,10 @@ const express = require("express")
 const path = require("path")
 const bodyParser = require('body-parser');
 
-const userRouter = require("./routes/userRoutes")
-const productRouter = require("./routes/productRoutes")
-const cartRouter = require("./routes/cartRoutes")
-
+const userRouter = require("./BACKEND/routes/userRoutes")
+const productRouter = require("./BACKEND/routes/productRoutes")
+const cartRouter = require("./BACKEND/routes/cartRoutes")
+ 
 const app = express()
 
 
