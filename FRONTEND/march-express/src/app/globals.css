@@ -10,7 +10,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #c19292;
   }
 }
 
@@ -27,4 +27,9 @@ body {
 .nav-modal{
   position: absolute;
   top:4rem;
+}
+.hero {
+  background-image: url('https://res.cloudinary.com/gift101/image/upload/v1737601674/pexels-heyho-6438762_lbwfkz.jpg');
+  background-size: cover;
+  background-position: center;
 }
