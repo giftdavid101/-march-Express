@@ -13,6 +13,14 @@ const swaggerOptions = {
             version: '1.0.0',
             description: 'List of all API endpoints',
         },
+        components: {
+            securitySchemes: {
+                BearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                },
+            },
+        },
     },
     apis: ['./routes/*.js'], // Replace with the path to your route files
 };
