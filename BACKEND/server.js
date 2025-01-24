@@ -2,7 +2,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const express = require("express")
 const mongoose = require("mongoose")
-const app = express()
+const app = require("./app.js")
 require("dotenv").config()
 
 const swaggerOptions = {
@@ -30,7 +30,6 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
-
 //routes
 app.get('/', (req, res) => {
     res.send("Welcome to MarchEx")
@@ -39,10 +38,12 @@ app.get('/', (req, res) => {
 mongoose.set("strict", false)
 mongoose.connect(process.env.MONGO_DB_URI).then(() => {
     console.log("Mongodb connected")
-    app.listen(process.env.PORT || 3000, () => {
-        console.log(" MarchEx Server running")
-    })
+
    
 }).catch((err) => {
     console.log(err)
+})
+
+app.listen(process.env.PORT || 3000, () => {
+    console.log(" MarchEx Server running")
 })

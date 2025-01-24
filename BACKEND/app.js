@@ -2,9 +2,9 @@ const express = require("express")
 const path = require("path")
 const bodyParser = require('body-parser');
 
-const userRouter = require("./BACKEND/routes/userRoutes")
-const productRouter = require("./BACKEND/routes/productRoutes")
-const cartRouter = require("./BACKEND/routes/cartRoutes")
+const userRouter = require("./routes/userRoute")
+const productRouter = require("./routes/productRoute")
+const cartRouter = require("./routes/cartRoute")
  
 const app = express()
 
@@ -12,7 +12,7 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-
+console.log("himmmm")
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/product", productRouter)
 app.use("/api/v1/cart", cartRouter)

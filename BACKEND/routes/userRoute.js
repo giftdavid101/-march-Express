@@ -52,6 +52,7 @@ const router = express.Router()
  *       409:
  *         description: User already exists
  */
+console.log("herrrrr")
 router.post("/signup",[
     body("name").notEmpty().withMessage("A user must have a name"),
     body("email").notEmpty().isEmail().withMessage("A user must have a valid email"),
