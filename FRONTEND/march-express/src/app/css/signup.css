@@ -105,3 +105,6 @@ label {
     transform: translateY(-50%);
     cursor: pointer;
 }
+.fit{
+    margin: 155px;
+}
