@@ -11,9 +11,6 @@ export default function SignUpPage() {
         <div className=" font-[family-name:var(--font-geist-sans)]">
             <div className="sign-up-style">
                 <div className="sign-up container">
-                    {/*<div className={'con-img'}>*/}
-                    {/*    <img className={'rotate-vertical'} src="" alt="p-s" />*/}
-                    {/*</div>*/}
                     <div className={'form-con'}>
                         <form>
                             <div className={'input-field'}>
