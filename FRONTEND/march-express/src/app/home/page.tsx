@@ -1,6 +1,9 @@
+
+
 export default function HomePage() {
 
     return (
+        // <RootLayout>
         <div className=" font-[family-name:var(--font-geist-sans)]">
                 <section className="hero h-96 text-white flex items-center justify-center text-center">
                     <div className="">
@@ -116,6 +119,6 @@ export default function HomePage() {
                 </section>
 
         </div>
-
+        // </RootLayout>
     );
 }
