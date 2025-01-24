@@ -6,9 +6,6 @@ const {protect} = require("../contollers/authController")
 const router = express.Router()
 
 
-
-
-
 /**
  * @swagger
  * /signup:
