@@ -61,7 +61,7 @@ label {
     color: var(--black);
     font-weight: 300;
     text-transform: capitalize;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 .auth-btn {
     border: none;
