@@ -1,8 +1,8 @@
 const express = require("express")
 const {body} = require("express-validator")
 
-const {createUser, loginUser, forgotPassword, resetPassword, updatePassword} = require("../contollers/userController")
-const {protect} = require("../contollers/authController")
+const {createUser, loginUser, forgotPassword, resetPassword, updatePassword} = require("../controllers/userController")
+const {protect} = require("../controllers/authController")
 const router = express.Router()
 
 
