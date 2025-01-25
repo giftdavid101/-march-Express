@@ -2,6 +2,7 @@
 import "../css/signup.css"
 import {ChangeEvent, FormEvent, useState} from "react";
 import {useRouter} from "next/router";
+import axios from "axios";
 
 
 const router = useRouter()
@@ -9,7 +10,6 @@ const router = useRouter()
 interface FormData {
     full_name: string;
     email: string;
-    username: string;
     password: string;
     confirm_password: string;
 }
@@ -22,7 +22,6 @@ export default function SignUpPage() {
     const [formData, setFormData] = useState<FormData>({
         full_name: '',
         email: '',
-        username: '',
         password: '',
         confirm_password: '',
     });
@@ -47,7 +46,6 @@ export default function SignUpPage() {
             setFormData({
                 full_name: '',
                 email: '',
-                username: '',
                 password: '',
                 confirm_password: '',
             });
