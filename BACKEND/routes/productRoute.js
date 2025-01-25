@@ -1,7 +1,7 @@
 const express = require("express")
 const {body} = require("express-validator")
-const { getAllProducts,addProduct,getAProduct,updateProduct,deleteProduct} = require("../contollers/productController");
-const {protect} = require("../contollers/authController")
+const { getAllProducts,addProduct,getAProduct,updateProduct,deleteProduct} = require("../controllers/productController");
+const {protect} = require("../controllers/authController")
 
 const router = express.Router();
 router.use(protect)
