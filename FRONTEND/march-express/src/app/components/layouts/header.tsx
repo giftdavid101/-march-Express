@@ -28,10 +28,7 @@ const Navbar = () => {
                         <Link href="/shop">Shop</Link>
                     </li>
                     <li>
-                        <Link href="/about">About</Link>
-                    </li>
-                    <li>
-                        <Link href="/contact">Contact</Link>
+                        <Link href="/login">Login</Link>
                     </li>
                     <li>
                         <Link href="/cart">Cart</Link>
