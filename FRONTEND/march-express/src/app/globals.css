@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fffae6;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #c19292;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.nav-modal{
+  position: absolute;
+  top:4rem;
+}
+.hero {
+  background-image: url('https://res.cloudinary.com/gift101/image/upload/v1737601674/pexels-heyho-6438762_lbwfkz.jpg');
+  background-size: cover;
+  background-position: center;
+}
