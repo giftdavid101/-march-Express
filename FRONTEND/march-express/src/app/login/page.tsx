@@ -1,7 +1,7 @@
 'use client'
 import "../css/signup.css"
 import {ChangeEvent, FormEvent, useState} from "react";
-import router from "next/router";
+import {useRouter} from "next/navigation";
 import axios from "axios";
 
 interface LoginFormData {
@@ -10,6 +10,7 @@ interface LoginFormData {
 }
 
 export default function LoginPage() {
+    const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [loginFormData, setLoginFormData] = useState<LoginFormData>({
         email: '',
@@ -25,13 +26,17 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://127.0.0.1:3000/login', loginFormData);
+            const response = await axios.post('http://127.0.0.1:3000/api/v1/user/login', loginFormData);
             console.log('User logged in:', response.data);
 
             // Save the token to localStorage or state management solution
             localStorage.setItem('token', response.data.token);
-
+            localStorage.setItem('user', JSON.stringify(response.data.user));
             alert('Login successful!');
+
+            // Set the Bearer token for subsequent API requests
+            axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+
             // Navigate to the dashboard page after successful login
             await router.push('/shop');
         } catch (error) {
@@ -39,14 +44,18 @@ export default function LoginPage() {
                 if (error.response) {
                     console.error('Error response:', error.response.data);
                     alert(`Login failed: ${error.response.data.detail || 'Please try again.'}`);
+                } else if (error.request) {
+                    console.error('Error request:', error.request);
+                    alert('Login failed: No response from server. Please try again later.');
                 } else {
                     console.error('Error message:', error.message);
-                    alert('Login failed: No response from server. Please try again later.');
+                    alert('Login failed: An unknown error occurred. Please try again.');
                 }
             } else {
-                console.error('Unexpected error:', error);
-                alert('Login failed: An unexpected error occurred. Please try again.');
+                console.error('Unknown error:', error);
+                alert('Login failed: An unknown error occurred. Please try again.');
             }
+
         } finally {
             setLoading(false);
         }
