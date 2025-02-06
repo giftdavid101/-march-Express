@@ -34,10 +34,18 @@ export default function LoginPage() {
             localStorage.setItem('user', JSON.stringify(response.data.user));
             alert('Login successful!');
 
+            // Update the login state here
+            const token = localStorage.getItem('token');
+            const userData = localStorage.getItem('user');
+            if (token && userData) {
+                setIsLoggedIn(true);
+                setUser(JSON.parse(userData));
+            }
+
             // Set the Bearer token for subsequent API requests
             axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
 
-            // Navigate to the dashboard page after successful login
+            // Navigate to the /shop page
             await router.push('/shop');
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -61,44 +69,48 @@ export default function LoginPage() {
         }
     };
 
+    // Add these state variables
+    const [, setIsLoggedIn] = useState(false);
+    const [, setUser] = useState({});
+
     return (
         <div className=" font-[family-name:var(--font-geist-sans)]">
             <div className="sign-up-style">
-            <div className="sign-up container">
-                <div className={'form-con fit'}>
-                    <form onSubmit={handleSubmit}>
-                        <div className={'input-field'}>
-                            <label htmlFor={'email'}>Email Address</label>
-                            <input
-                                id={'email'}
-                                name={'email'}
-                                type={'email'}
-                                value={loginFormData.email}
-                                onChange={handleChange}
-                            />
+                <div className="sign-up container">
+                    <div className={'form-con fit'}>
+                        <form onSubmit={handleSubmit}>
+                            <div className={'input-field'}>
+                                <label htmlFor={'email'}>Email Address</label>
+                                <input
+                                    id={'email'}
+                                    name={'email'}
+                                    type={'email'}
+                                    value={loginFormData.email}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className={'input-field'}>
+                                <label htmlFor={'password'}>Password</label>
+                                <input
+                                    id={'password'}
+                                    name={'password'}
+                                    type={'password'}
+                                    value={loginFormData.password}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <button className={"auth-btn"} type="submit" disabled={loading}>
+                                {loading ? <div className="loader"></div> : 'Log In'}
+                            </button>
+                        </form>
+                        <div>
+                            <p>
+                                Don't have an account? <a href={'/signup'}>Sign Up</a>
+                            </p>
                         </div>
-                        <div className={'input-field'}>
-                            <label htmlFor={'password'}>Password</label>
-                            <input
-                                id={'password'}
-                                name={'password'}
-                                type={'password'}
-                                value={loginFormData.password}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <button className={"auth-btn"} type="submit" disabled={loading}>
-                            {loading ? <div className="loader"></div> : 'Log In'}
-                        </button>
-                    </form>
-                    <div>
-                        <p>
-                            Don't have an account? <a href={'/signup'}>Sign Up</a>
-                        </p>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
 
     );
