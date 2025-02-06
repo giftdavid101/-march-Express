@@ -108,3 +108,35 @@ label {
 .fit{
     margin: 155px;
 }
+.products-list{
+    width: 100%;
+    margin: 20px 0;
+}
+.admin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.ul-card{
+    width: 100%;
+    max-width: 800px;
+}
+.product-div{
+    /*background: burlywood;*/
+    height: 500px
+}
+.overlay {
+    position: relative;
+}
+
+.overlay::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(227, 221, 221, 0.2); /* semi-transparent background */
+    z-index: 1;
+}
