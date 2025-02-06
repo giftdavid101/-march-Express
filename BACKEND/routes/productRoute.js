@@ -11,6 +11,7 @@ router
   .get(getAllProducts)
   .post(
     [
+      body("img").notEmpty().withMessage("A product must have a img"),
       body("name").notEmpty().withMessage("A product must have a name"),
       body("price").notEmpty().isInt().withMessage("A product must have a price"),
       body("quantity").notEmpty().isInt().withMessage("A product must have quantity"),

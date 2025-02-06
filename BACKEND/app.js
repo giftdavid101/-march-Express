@@ -1,12 +1,20 @@
 const express = require("express")
 const path = require("path")
 const bodyParser = require('body-parser');
-
+const cors = require('cors');
 const userRouter = require("./routes/userRoute")
 const productRouter = require("./routes/productRoute")
 const cartRouter = require("./routes/cartRoute")
  
 const app = express()
+
+// Enable CORS
+app.use(cors({
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+}))
 
 
 

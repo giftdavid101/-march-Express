@@ -34,14 +34,14 @@ exports.createUser = catchAsync(async (req, res, next) => {
       return next(new AppError(errors, 400));
     }
   
-    if (req.body.password !== req.body.confirmPassword) {
+    if (req.body.password !== req.body.confirm_password) {
       return next(
         new AppError("Password and confirmPassword has to the same", 400),
       );
     }
   
     const body = {
-      name: req.body.name,
+      name: req.body.full_name,
       email: req.body.email,
       password: req.body.password,
     };
@@ -51,25 +51,46 @@ exports.createUser = catchAsync(async (req, res, next) => {
     createAndSendToken(user, res, 201)
   });
 
+// exports.loginUser = catchAsync(async (req, res, next) => {
+//     const errors = validationResult(req);
+//
+//     if (!errors.isEmpty()) {
+//       return next(new AppError(errors, 400));
+//     }
+//
+//     const user = await User.findOne({ email: req.body.email }).select(
+//       "+password",
+//     );
+//
+//     if (
+//       !user ||
+//       !(await user.correctPassword(req.body.password, user.correctPassword))
+//     ) {
+//       return next(new AppError("email or password is not correct", 401));
+//     }
+//     if (!user || !(await user.correctPassword(req.body.password, user.password))) {
+//         return next(new AppError("email or password is not correct", 401);
+//     }
+//     createAndSendToken(user, res, 200)
+//   });
+
 exports.loginUser = catchAsync(async (req, res, next) => {
     const errors = validationResult(req);
-  
+
     if (!errors.isEmpty()) {
-      return next(new AppError(errors, 400));
+        return next(new AppError(errors, 400));
     }
-  
-    const user = await User.findOne({ email: req.body.email }).select(
-      "+password",
-    );
-  
-    if (
-      !user ||
-      !(await user.correctPassword(req.body.password, user.password))
-    ) {
-      return next(new AppError("email or password is not correct", 401));
+
+    const user = await User.findOne({ email: req.body.email }).select("+password");
+
+    if (!user || !(await user.correctPassword(req.body.password, user.password))) {
+        return next(new AppError("Email or password is not correct", 401));
     }
-    createAndSendToken(user, res, 200)
-  });
+
+    createAndSendToken(user, res, 200);
+});
+
+
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
     if (!req.body.email) {

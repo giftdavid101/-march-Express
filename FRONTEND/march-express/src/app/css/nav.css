@@ -38,6 +38,7 @@
 
 .navbar-links {
     display: flex;
+    align-items: center;
     list-style: none;
     gap: 1rem;
 }
@@ -60,5 +61,6 @@
 
     .navbar-links.active {
         display: flex;
+        align-items: center;
     }
 }

@@ -1,11 +1,11 @@
 'use client'
 import "../css/signup.css"
 import {ChangeEvent, FormEvent, useState} from "react";
-import {useRouter} from "next/router";
+import {useRouter} from "next/navigation";
+import { Modal } from 'antd';
 import axios from "axios";
 
 
-const router = useRouter()
 
 interface FormData {
     full_name: string;
@@ -15,9 +15,12 @@ interface FormData {
 }
 
 export default function SignUpPage() {
+    const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+
 
     const [formData, setFormData] = useState<FormData>({
         full_name: '',
@@ -38,8 +41,9 @@ export default function SignUpPage() {
         console.log('Submitting form data:', formData); // Log form data
 
         try {
-            const response = await axios.post('http://127.0.0.1:3000/signup', formData);
+            const response = await axios.post('http://127.0.0.1:3000/api/v1/user/signup', formData);
             console.log('User signed up:', response.data);
+            setShowModal(true);
             alert('Sign up successful! Proceed to Login');
             await router.push('/login');
             // Clear input fields
@@ -49,14 +53,25 @@ export default function SignUpPage() {
                 password: '',
                 confirm_password: '',
             });
-        } catch (error) {
+        }
+        catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
-                    console.error('Error response:', error.response.data); // Log response error
-                    alert(`Sign up failed: ${error.response.data.detail || 'Please try again.'}`);
+                    if (Object.keys(error.response.data).length > 0) {
+                        console.error('Error response:', error.response.data); // Log response error
+                        if (error.response.data.message && error.response.data.message.errors) {
+                            const errorMessages = error.response.data.message.errors.map((error) => error.msg);
+                            alert(`Sign up failed: ${errorMessages.join(', ')}`);
+                        } else {
+                            alert('Sign up failed: An unknown error occurred. Please try again.');
+                        }
+                    } else {
+                        console.error('Error response: No error details provided by the server.');
+                        alert('Sign up failed: An unknown error occurred. Please try again.');
+                    }
                 } else {
                     console.error('Error message:', error.message);
-                    alert('Sign up failed: No response from server. Please try again later.');
+                    alert('Sign up failed: An unknown error occurred. Please try again.');
                 }
             } else {
                 console.error('Unexpected error:', error);
@@ -130,6 +145,17 @@ export default function SignUpPage() {
                                 {loading ? <div className="loader"></div> : 'Sign up'}
                             </button>
                         </form>
+                        {/* Ant Design Modal */}
+                        <Modal
+                            title="Sign Up Successful"
+                            open={showModal}
+                            onOk={() => setShowModal(false)}
+                            onCancel={() => setShowModal(false)}
+                            okText="Go to Login"
+                            cancelText="Close"
+                        >
+                            <p>You have successfully signed up! You will be redirected to the login page.</p>
+                        </Modal>
                         <div>
                             <p>
                                 Have an account? <a href={'/login'}>Log in</a>

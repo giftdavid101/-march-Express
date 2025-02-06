@@ -1,11 +1,13 @@
+"use client"
 import HomePage from "./home/page";
 
-export default function Home() {
+function MyApp({pageProps }) {
 
-
-  return (
-    <div className=" font-[family-name:var(--font-geist-sans)]">
-        <HomePage />
-    </div>
-  );
+    return (
+      <>
+          <HomePage  {...pageProps} />
+      </>
+    );
 }
+
+export default MyApp;

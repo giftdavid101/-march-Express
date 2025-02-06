@@ -1,43 +1,98 @@
+"use client"
 import Image from "next/image";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import '../css/signup.css';
+import { useContext } from 'react';
+import { CartContext } from '../createContext';
+
+interface Product {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+}
+
 export default function ShopPage() {
+    const { addItemToCart } = useContext(CartContext);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(false);
+
+
+    const handleClick = (index: any) => {
+        console.log('button clicked')
+        addItemToCart( products.products[index])
+    }
+
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            setLoading(true);
+            try {
+                const token = localStorage.getItem('token');
+
+                const response = await axios.get('http://127.0.0.1:3000/api/v1/product', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                console.log('Products:', response.data);
+                if (response.data.length === 0) {
+                    setProducts(randomProducts);
+                } else {
+                    setProducts(response.data);
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                alert('Error fetching products!');
+                setProducts(randomProducts);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     return (
-        <div className=" font-[family-name:var(--font-geist-sans)]">
-            <div className="container p-8">
-                <h6 className="text-2xl font-bold mb-6">Products</h6>
-                <div className="grid grid-cols-3 gap-8">
-                    {/* Product Cards */}
-                    {Array(9)
-                        .fill(0)
-                        .map((_, index) => (
-                            <div
-                                key={index}
-                                className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col items-center"
-                            >
-                                <div className="bg-gray h-100p">
-                                    <Image
-                                        src="https://res.cloudinary.com/gift101/image/upload/v1737604230/pngegg_12_y3d4b3.png"
-                                        alt={`Product ${index + 1}`}
-                                        width={150}
-                                        height={150}
-                                        className="w-full object-cover"
-                                    />
-                                </div>
-
-                                <div className="p-4 w-full text-center">
-                                    <h3 className="font-semibold text-lg mb-2">
-                                        Product {index + 1}
-                                    </h3>
-                                    <p className="text-gray-500 text-sm">£20.00</p>
-                                    <button className="mt-4 px-6 py-2 bg-teal-500 text-white rounded-lg">
-                                        Add to Cart
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
-                </div>
+        <div className="font-[family-name:var(--font-geist-sans)]">
+            <div style={{marginBottom:20}} className="container p-8">
+                <h5 style={{marginTop:10}} className="text-1xl font-bold">Products</h5>
+                {loading ? (
+                    <div>Loading...</div>
+                ) : (
+                    <div className=" ul-card flex flex-wrap justify-center gap-6 max-w-800px mx-auto">
+                {Array.isArray(products.products) &&
+                    products.products.map((product, index) => (
+                    <li
+                    key={product._id}
+                    className="flex flex-col justify-between bg-white shadow-md p-6 rounded-lg border border-gray-200 w-full sm:w-[calc(48%-1rem)]"
+                    >
+                    <div className="h-32 w-full flex items-center justify-center bg-gray-100 rounded-md overflow-hidden">
+                    <Image
+                    src={product.img}
+                    alt={product.name}
+                    width={150}
+                    height={150}
+                    className="h-full w-auto object-contain"
+                    />
+                    </div>
+                    <div className="flex flex-col space-y-3">
+                    <span className="font-semibold text-xl">{product.name}</span>
+                    <span className="text-base text-gray-600">Price: ${product.price}</span>
+                    <span className="text-base text-gray-600">Quantity: {product.quantity}</span>
+                    </div>
+                    <button
+                    className="mt-6 bg-gray-500 text-white px-5 py-2 rounded-lg hover:bg-brown-600 transition"
+                    onClick={() => handleClick(index)}
+                    >
+                    Add to cart
+                    </button>
+                    </li>
+                    ))}
+                    </div>
+                )}
+            </div>
         </div>
-        </div>
-
     );
 }

@@ -1,4 +1,4 @@
-
+import '../css/signup.css'
 
 export default function HomePage() {
 
@@ -8,9 +8,9 @@ export default function HomePage() {
                 <section className="hero h-96 text-white flex items-center justify-center text-center">
                     <div className="">
 
-                        <div>
-                            <h1 className="text-6xl font-bold">Contemporary</h1>
-                            <p className="mt-4 text-lg max-w-md mx-auto">
+                        <div className={"overlay"}>
+                            <h1 style={{color:'#e42424'}} className="text-4xl text-black font-bold">Contemporary</h1>
+                            <p style={{color:'#9f1e4e'}} className="mt-4 text-lg text-white max-w-md mx-auto">
                                 Crafting spaces that harmonize modern aesthetics with timeless elegance...
                             </p>
                             <button className="mt-4 px-6 py-2 bg-gray-800 text-white rounded">View More</button>
@@ -117,6 +117,7 @@ export default function HomePage() {
                         </div>
                     </div>
                 </section>
+
         </div>
         // </RootLayout>
     );
