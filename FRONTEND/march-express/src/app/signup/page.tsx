@@ -55,18 +55,6 @@ export default function SignUpPage() {
             });
         }
         catch (error) {
-            // if (axios.isAxiosError(error)) {
-            //     if (error.response) {
-            //         console.error('Error response:', error.response.data); // Log response error
-            //         alert(`Sign up failed: ${error.response.data.detail || 'Please try again.'}`);
-            //     } else {
-            //         console.error('Error message:', error.message);
-            //         alert('Sign up failed: No response from server. Please try again later.');
-            //     }
-            // } else {
-            //     console.error('Unexpected error:', error);
-            //     alert('Sign up failed: An unexpected error occurred. Please try again.');
-            // }
             if (axios.isAxiosError(error)) {
                 if (error.response) {
                     if (Object.keys(error.response.data).length > 0) {
